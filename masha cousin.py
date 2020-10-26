@@ -1,12 +1,3 @@
-# Outputs
-extra_hours = 0
-standard_amount = 0
-ovr_time_amount = 0
-gross_pay = 0
-total_tax = 0
-net_pay = 0
-
-
 # Constants
 STA_WORK_WEEK_HRS = 39  # Standard hour working per week
 STA_PAY_RATE = 35  # Standard pay rate per hour
@@ -27,18 +18,24 @@ def computeGrossPay(h):
     if hours_worked >= 0:
         if hours_worked <= 39:
             standard_amount = hours_worked * STA_PAY_RATE
-            grossPay = standard_amount           
+            grossPay = standard_amount
+            ovr_time_amount = 0
         elif hours_worked >= 39:
+            standard_amount = STA_WORK_WEEK_HRS * STA_PAY_RATE
             extra_hours = hours_worked - 39
             ovr_time_amount = extra_hours * 50 
-            grossPay = STA_WORK_WEEK_HRS * STA_PAY_RATE + ovr_time_amount
-    return grossPay
+            grossPay = standard_amount + ovr_time_amount
+    return [standard_amount, grossPay, ovr_time_amount]
 
 
 # Inputs
 hours_worked = float(input("Enter hour of work this week: "))
 
-gross_pay = computeGrossPay((hours_worked))
+pay = computeGrossPay((hours_worked))
+
+standard_amount = pay[0]
+gross_pay = pay[1]
+ovr_time_amount = pay[2]
 
 yearly_pay = gross_pay * WORKED_WEEK     # Annual Salary
 
